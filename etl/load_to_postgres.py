@@ -34,35 +34,35 @@ fact_orders = pd.read_csv(
 dim_customer.to_sql(
     "dim_customer",
     engine,
-    if_exists="replace",
+    if_exists="append",
     index=False
 )
 
 dim_product.to_sql(
     "dim_product",
     engine,
-    if_exists="replace",
+    if_exists="append",
     index=False
 )
 
 dim_seller.to_sql(
     "dim_seller",
     engine,
-    if_exists="replace",
+    if_exists="append",
     index=False
 )
 
 dim_date.to_sql(
     "dim_date",
     engine,
-    if_exists="replace",
+    if_exists="append",
     index=False
 )
 
 fact_orders.to_sql(
     "fact_orders",
     engine,
-    if_exists="replace",
+    if_exists="append",
     index=False
 )
 

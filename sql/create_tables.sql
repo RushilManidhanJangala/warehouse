@@ -20,6 +20,8 @@ CREATE TABLE dim_customer (
 
     customer_unique_id VARCHAR(50),
 
+    customer_zip_code_prefix INTEGER,
+
     customer_city VARCHAR(100),
 
     customer_state VARCHAR(10)
