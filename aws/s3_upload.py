@@ -1,35 +1,45 @@
-import boto3
 import os
+import boto3
 
-# Replace with YOUR values
-AWS_ACCESS_KEY_ID = "YOUR_ACCESS_KEY"
-AWS_SECRET_ACCESS_KEY = "YOUR_SECRET_KEY"
+# Read credentials from environment variables
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_REGION = os.getenv("AWS_REGION")
+BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
 
-BUCKET_NAME = "rushil-warehouse-project-2026"
-
+# Create S3 client
 s3 = boto3.client(
     "s3",
-    region_name="us-east-2"
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_REGION
 )
 
-files = [
-    "data/processed/dim_customer.csv",
-    "data/processed/dim_product.csv",
-    "data/processed/dim_seller.csv",
-    "data/processed/dim_date.csv",
-    "data/processed/fact_orders.csv"
-]
 
-for file in files:
+def upload_files():
 
-    object_name = file.split("/")[-1]
+    files = [
+        "/opt/airflow/project/data/processed/dim_customer.csv",
+        "/opt/airflow/project/data/processed/dim_product.csv",
+        "/opt/airflow/project/data/processed/dim_seller.csv",
+        "/opt/airflow/project/data/processed/dim_date.csv",
+        "/opt/airflow/project/data/processed/fact_orders.csv"
+    ]
 
-    s3.upload_file(
-        file,
-        BUCKET_NAME,
-        object_name
-    )
+    for file in files:
 
-    print(f"Uploaded {object_name}")
+        object_name = os.path.basename(file)
 
-print("Upload complete.")
+        s3.upload_file(
+            file,
+            BUCKET_NAME,
+            object_name
+        )
+
+        print(f"Uploaded {object_name}")
+
+    print("Upload complete.")
+
+
+if __name__ == "__main__":
+    upload_files()

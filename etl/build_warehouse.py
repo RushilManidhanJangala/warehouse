@@ -44,8 +44,8 @@ def build_warehouse():
     )
 
     dim_date.to_csv(
-        "data/processed/dim_date.csv",
-        index=False
+    "/opt/airflow/project/data/processed/dim_date.csv",
+    index=False
     )
 
     print("Warehouse build complete")

@@ -11,18 +11,18 @@ with DAG(
 ) as dag:
 
     build_warehouse = BashOperator(
-        task_id="build_warehouse",
-        bash_command="echo Building warehouse"
-    )
+    task_id="build_warehouse",
+    bash_command="python /opt/airflow/project/etl/build_warehouse.py"
+)
 
     load_postgres = BashOperator(
-        task_id="load_postgres",
-        bash_command="echo Loading PostgreSQL"
+    task_id="load_postgres",
+    bash_command="python /opt/airflow/project/etl/load_to_postgres.py"
     )
 
     upload_s3 = BashOperator(
-        task_id="upload_s3",
-        bash_command="echo Uploading to S3"
+    task_id="upload_s3",
+    bash_command="python /opt/airflow/project/aws/s3_upload.py"
     )
 
     build_warehouse >> load_postgres >> upload_s3

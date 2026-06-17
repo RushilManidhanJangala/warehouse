@@ -1,4 +1,5 @@
 import pandas as pd
+from extract import extract_data
 
 
 def build_dim_customer(customers):
@@ -13,10 +14,7 @@ def build_dim_seller(sellers):
     return sellers.copy()
 
 
-def build_fact_orders(
-    orders,
-    order_items
-):
+def build_fact_orders(orders, order_items):
     fact_orders = order_items.merge(
         orders,
         on="order_id",
@@ -24,7 +22,34 @@ def build_fact_orders(
     )
 
     return fact_orders
-from extract import extract_data
+
+
+def save_tables(
+    dim_customer,
+    dim_product,
+    dim_seller,
+    fact_orders
+):
+
+    dim_customer.to_csv(
+        "/opt/airflow/project/data/processed/dim_customer.csv",
+        index=False
+    )
+
+    dim_product.to_csv(
+        "/opt/airflow/project/data/processed/dim_product.csv",
+        index=False
+    )
+
+    dim_seller.to_csv(
+        "/opt/airflow/project/data/processed/dim_seller.csv",
+        index=False
+    )
+
+    fact_orders.to_csv(
+        "/opt/airflow/project/data/processed/fact_orders.csv",
+        index=False
+    )
 
 
 if __name__ == "__main__":
@@ -67,37 +92,12 @@ if __name__ == "__main__":
         "Fact Orders:",
         fact_orders.shape
     )
-def save_tables(
-    dim_customer,
-    dim_product,
-    dim_seller,
-    fact_orders
-):
 
-    dim_customer.to_csv(
-        "data/processed/dim_customer.csv",
-        index=False
+    save_tables(
+        dim_customer,
+        dim_product,
+        dim_seller,
+        fact_orders
     )
 
-    dim_product.to_csv(
-        "data/processed/dim_product.csv",
-        index=False
-    )
-
-    dim_seller.to_csv(
-        "data/processed/dim_seller.csv",
-        index=False
-    )
-
-    fact_orders.to_csv(
-        "data/processed/fact_orders.csv",
-        index=False
-    )
-save_tables(
-    dim_customer,
-    dim_product,
-    dim_seller,
-    fact_orders
-)
-
-print("Processed tables saved.")
+    print("Processed tables saved.")
