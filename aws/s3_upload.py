@@ -9,8 +9,6 @@ BUCKET_NAME = "rushil-warehouse-project-2026"
 
 s3 = boto3.client(
     "s3",
-    AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
     region_name="us-east-2"
 )
 
